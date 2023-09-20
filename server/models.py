@@ -38,12 +38,14 @@ class Review(db.Model):
     def __repr__(self):
         return f'<Review ({self.id}) of {self.game}: {self.score}/10>'
 
-class User(db.Model):
+class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
+
+    serialize_rules = ('-reviews.user',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    
+
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
